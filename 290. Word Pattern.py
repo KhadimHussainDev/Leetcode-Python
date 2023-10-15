@@ -1,19 +1,23 @@
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
-        dic={}
-        dic1={}
-        idx=0
-        words=s.split()
-        if len(pattern)!=len(words):
+        pattern_to_word = {}  # Maps each character in the pattern to a word
+        word_to_pattern = {}  # Maps each word to a character in the pattern
+
+        words = s.split()
+
+        # Check if the pattern length is equal to the number of words
+        if len(pattern) != len(words):
             return False
-        for ch in pattern:
-            if ch not in dic:
-                if words[idx] in dic1:
+
+        for char, word in zip(pattern, words):
+            if char not in pattern_to_word:
+                # Check if the word is already mapped to another character
+                if word in word_to_pattern:
                     return False
-                dic[ch]=words[idx]
-                dic1[words[idx]]=ch
+                pattern_to_word[char] = word
+                word_to_pattern[word] = char
             else:
-                if dic[ch] != words[idx] :
+                if pattern_to_word[char] != word:
                     return False
-            idx+=1
+
         return True
