@@ -13,3 +13,20 @@ class Solution:
                 num_to_index[num] = idx
 
         return False
+
+## Solution 2
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        # A set to keep track of the unique numbers seen within the window of size k
+        unique_nums = set()
+
+        for i, num in enumerate(nums):
+            if num in unique_nums:
+                return True  # Found a duplicate within the window
+            unique_nums.add(num)  # Add the current number to the set
+
+            # Maintain the window size by removing the element outside the window
+            if len(unique_nums) > k:
+                unique_nums.remove(nums[i - k])
+
+        return False  # No duplicates found within the window
